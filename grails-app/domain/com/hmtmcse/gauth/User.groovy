@@ -1,12 +1,17 @@
 package com.hmtmcse.gauth
 
-class User {
+import com.hmtmcse.gcommon.DomainTask
+
+
+class User implements DomainTask{
 
     Integer id
     Boolean isActive  = true
     Boolean isDeleted = false
     Date dateCreated
     Date lastUpdated
+    String uuid
+
     String firstName
     String lastName
     String email

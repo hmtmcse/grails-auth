@@ -16,10 +16,8 @@ class UserSpec extends Specification implements DomainUnitTest<User> {
         new User(
                 firstName: "Touhid",
                 lastName: "Mia",
-                lastUpdated: new Date(),
                 email: "email@gmail.local",
                 password: "password",
-                dateCreated: new Date()
         ).save()
 
         expect:"fix me"
