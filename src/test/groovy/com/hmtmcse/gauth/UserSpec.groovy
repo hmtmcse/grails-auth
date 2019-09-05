@@ -1,18 +1,43 @@
 package com.hmtmcse.gauth
 
 import grails.testing.gorm.DomainUnitTest
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Stepwise
 
+@Stepwise
 class UserSpec extends Specification implements DomainUnitTest<User> {
 
-    def setup() {
-    }
+    @Shared int id
 
-    def cleanup() {
-    }
+    void "test basic intert"() {
 
-    void "test something"() {
+        setup:
+        new User(
+                firstName: "Touhid",
+                lastName: "Mia",
+                lastUpdated: new Date(),
+                email: "email@gmail.local",
+                password: "password",
+                dateCreated: new Date()
+        ).save()
+
         expect:"fix me"
-            true == false
+            User.count() == 1
+    }
+
+    void "test domain instance"() {
+        setup:
+        id = System.identityHashCode(domain)
+
+        expect:
+        domain != null
+        domain.hashCode() == id
+
+        when:
+        domain.firstName = 'Robert'
+
+        then:
+        domain.firstName == 'Robert'
     }
 }

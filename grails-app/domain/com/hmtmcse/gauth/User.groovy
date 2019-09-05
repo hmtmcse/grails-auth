@@ -15,5 +15,6 @@ class User {
 
 
     static constraints = {
+        message(nullable: true)
     }
 }
