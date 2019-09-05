@@ -17,11 +17,18 @@ class User implements DomainTask {
     String lastName
     String email
     String password
+    String profilePicture
     String message
+    Set<UserAccessList> userAccessLists = []
+    Set<UserAccessGroup> userAccessGroups = []
 
+
+    static belongsTo = [UserAccessGroup]
+    static hasMany = [userAccessLists: UserAccessList, userAccessGroups: UserAccessGroup]
 
     static constraints = {
         message(nullable: true)
+        profilePicture(nullable: true)
         email(unique: true, email: true, nullable: false)
     }
 }

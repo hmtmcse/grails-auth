@@ -1,12 +1,16 @@
 package com.hmtmcse.gauth
 
-class UserAccessList {
+import com.hmtmcse.gcommon.DomainTask
+
+class UserAccessList implements DomainTask {
 
     Integer id
     Boolean isActive = true
     Boolean isDeleted = false
     Date dateCreated
     Date lastUpdated
+    String uuid
+
     UserAccessGroup userAccessGroup
     User user
     Set<UserAccessAction> userAccessActions = []
