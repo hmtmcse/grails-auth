@@ -11,8 +11,6 @@ group "com.hmtmcse.gauth"
 
 dependencies {
     compile project(":grails-common")
-    compile "org.grails.plugins:hibernate5"
-    compile "org.hibernate:hibernate-core:5.1.5.Final"
 }
 
 

@@ -2,7 +2,7 @@ package com.hmtmcse.gauth
 
 import grails.plugins.*
 
-class MyPluginGrailsPlugin extends Plugin {
+class GrailsAuthGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "4.0.0 > *"

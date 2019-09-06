@@ -2,5 +2,8 @@ package com.hmtmcse.gauth
 
 class UserController {
 
-    def index() { }
+    def index() {
+        println("yes...")
+        render("User Controller")
+    }
 }
