@@ -11,6 +11,7 @@ group "com.hmtmcse.gauth"
 
 dependencies {
     compile project(":grails-common")
+    compile project(":grails-swagger")
 }
 
 
