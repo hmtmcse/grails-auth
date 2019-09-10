@@ -1,7 +1,7 @@
 ## User Requirement
 1. User could belong to hasMany Access Group [Administration, Faculty]
-2. User could have multiple adhock access, such as An user belongs to Faculty Group but we want to give some specific 
-administrative access, that's User could have hasMany Access List.
+2. User could have multiple ad-hock access, such as An user belongs to Faculty Group but we want to give some specific 
+administrative access, so that User could have hasMany Access List.
 
 
 ## User Access Group
@@ -25,7 +25,9 @@ some access manually.
 
 
 ## Story
-
+1. First you have to create User with appropriate information
+2. After created account Administrator can assign Access Group or Access from List by clicking on separate button
+3. After Access group assigned we can add remove Access Ad-hock basis.
 
 
 
