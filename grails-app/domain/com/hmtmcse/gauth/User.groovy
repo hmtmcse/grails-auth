@@ -31,6 +31,6 @@ class User implements DomainTask, MultiTenant<User> {
     static constraints = {
         message(nullable: true)
         profilePicture(nullable: true)
-        email(unique: true, email: true, nullable: false)
+        email(unique: true, nullable: false)
     }
 }

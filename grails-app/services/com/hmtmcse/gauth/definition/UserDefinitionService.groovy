@@ -1,18 +1,33 @@
 package com.hmtmcse.gauth.definition
 
 import com.hmtmcse.gauth.User
+import com.hmtmcse.gauth.UserService
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.GsRequestParamException
+import com.hmtmcse.gs.data.GsApiRequestProperty
+import com.hmtmcse.gs.data.GsParamsPairData
+import com.hmtmcse.gs.model.CustomRequestParamProcessor
 
 
 class UserDefinitionService {
+
+    UserService userService
 
 
     GsApiActionDefinition createUpdate(){
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
         gsApiActionDefinition.addRequestProperty("firstName").required()
         gsApiActionDefinition.addRequestProperty("lastName")
-        gsApiActionDefinition.addRequestProperty("profilePicture")
-        gsApiActionDefinition.addRequestProperty("email").required()
+        gsApiActionDefinition.addRequestProperty("email").required().customRequestParamProcessor = new CustomRequestParamProcessor() {
+            @Override
+            Object process(String fieldName, GsParamsPairData gsParamsPairData, GsApiRequestProperty propertyDefinition) throws GsRequestParamException {
+                String email = gsParamsPairData.params.email
+                if (userService.isEmailExist(email)){
+                    throw new GsRequestParamException(email + " Email already exists. Please try with other Email.")
+                }
+                return email
+            }
+        }
         return gsApiActionDefinition
     }
 
