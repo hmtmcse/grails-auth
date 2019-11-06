@@ -21,10 +21,11 @@ class User implements DomainTask {
     String message
     Set<UserAccessList> userAccessLists = []
     Set<UserAccessGroup> userAccessGroups = []
+    Set<UserProfile> userProfile = []
 
 
     static belongsTo = [UserAccessGroup]
-    static hasMany = [userAccessLists: UserAccessList, userAccessGroups: UserAccessGroup]
+    static hasMany = [userAccessLists: UserAccessList, userAccessGroups: UserAccessGroup, userProfile: UserProfile]
 
     static constraints = {
         message(nullable: true)

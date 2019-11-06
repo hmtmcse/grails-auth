@@ -11,6 +11,7 @@ class UserDefinitionService {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
         gsApiActionDefinition.addRequestProperty("firstName").required()
         gsApiActionDefinition.addRequestProperty("lastName")
+        gsApiActionDefinition.addRequestProperty("profilePicture")
         gsApiActionDefinition.addRequestProperty("email").required()
         return gsApiActionDefinition
     }
