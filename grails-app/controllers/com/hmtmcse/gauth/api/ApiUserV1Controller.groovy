@@ -25,6 +25,8 @@ class ApiUserV1Controller extends GsRestProcessor {
 
     def getDetails(){}
 
+    def getActiveInactive(){}
+
 
     def getLogout(){}
 
@@ -32,7 +34,7 @@ class ApiUserV1Controller extends GsRestProcessor {
 
     def postResetPassword(){}
 
-    def getActiveInactive(){}
+
 
 
 }

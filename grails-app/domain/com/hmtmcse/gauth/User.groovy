@@ -1,9 +1,10 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.gcommon.DomainTask
+import grails.gorm.MultiTenant
 
 
-class User implements DomainTask {
+class User implements DomainTask, MultiTenant<User> {
 
     Integer id
     Boolean isActive = true

@@ -16,16 +16,19 @@ class UserDefinitionService {
         return gsApiActionDefinition
     }
 
+
     GsApiActionDefinition read(){
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
         return gsApiActionDefinition
     }
+
 
     GsApiActionDefinition create() {
         GsApiActionDefinition gsApiActionDefinition = createUpdate()
         gsApiActionDefinition.addRequestProperty("password").required()
         return gsApiActionDefinition
     }
+
 
     GsApiActionDefinition update() {
         GsApiActionDefinition gsApiActionDefinition = createUpdate()
