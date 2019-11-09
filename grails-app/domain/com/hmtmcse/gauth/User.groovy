@@ -33,4 +33,8 @@ class User implements DomainTask, MultiTenant<User> {
         profilePicture(nullable: true)
         email(unique: true, nullable: false)
     }
+
+    def beforeInsert() {
+        this.password = this.password.encodeAsMD5()
+    }
 }

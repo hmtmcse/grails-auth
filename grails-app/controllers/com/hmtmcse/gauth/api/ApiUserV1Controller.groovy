@@ -16,7 +16,7 @@ class ApiUserV1Controller extends GsRestProcessor {
     }
 
     def deleteDelete(){
-        return deleteOnly(userDefinitionService.delete())
+        return updateOnly(userDefinitionService.delete())
     }
 
     def deleteHardDelete(){
