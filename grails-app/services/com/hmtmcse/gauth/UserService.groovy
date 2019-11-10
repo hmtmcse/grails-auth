@@ -9,9 +9,12 @@ import grails.gorm.transactions.Transactional
 
 class UserService {
 
+    JwtAuthService jwtAuthService
+
     User getById(Integer id){
         return User.get(id)
     }
+
 
     User getByUuid(String uuid){
         return User.findByUuid(uuid)
@@ -53,13 +56,37 @@ class UserService {
         return GsApiResponseData.successMessage("Successfully Password Reset.")
     }
 
+
+
+    GsApiResponseData login(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+        String email = paramData.filteredGrailsParameterMap.email
+        String password = paramData.filteredGrailsParameterMap.password
+        Map userInfo = [:]
+        User user = User.createCriteria().get {
+            and {
+                eq("email", email)
+                eq("password", password.encodeAsMD5())
+                eq("isActive", true)
+                eq("isDeleted", false)
+            }
+        }
+        if (user){
+            userInfo.user = apiHelper.help.responseMapGenerator(actionDefinition.getResponseProperties(), user)
+            userInfo.login = jwtAuthService.jwtTokenGen(user)
+            return GsApiResponseData.successResponse(userInfo)
+        }
+        return apiHelper.help.responseToApi(actionDefinition, user)
+    }
+
+
+
     @Transactional
     GsApiResponseData activeInactive(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         User user = null
         if (paramData.filteredGrailsParameterMap.id){
             user = getById(paramData.filteredGrailsParameterMap.id)
         }else if (paramData.filteredGrailsParameterMap.uuid){
-            user = getById(paramData.filteredGrailsParameterMap.uuid)
+            user = getByUuid(paramData.filteredGrailsParameterMap.uuid)
         }
 
         if (!user){

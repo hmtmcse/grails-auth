@@ -1,14 +1,19 @@
 package com.hmtmcse.gauth.api
 
-import com.hmtmcse.gauth.definition.UserDefinitionService
+import com.hmtmcse.gauth.definition.AuthenticationDefinitionService
 import com.hmtmcse.gs.GsRestProcessor
 
 class ApiAuthenticationV1Controller extends GsRestProcessor {
 
-    UserDefinitionService userDefinitionService
+    AuthenticationDefinitionService authenticationDefinitionService
 
-    def postResetPassword(){}
+    def postLogin() {
+        return customProcessor(authenticationDefinitionService.login())
+    }
 
-    def postLogin(){}
+    def getLogout() {
+        return customProcessor(authenticationDefinitionService.logout())
+    }
+
 
 }
