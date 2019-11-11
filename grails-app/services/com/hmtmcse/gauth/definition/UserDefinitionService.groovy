@@ -107,8 +107,7 @@ class UserDefinitionService {
     }
 
     GsApiActionDefinition list() {
-        GsApiActionDefinition gsApiActionDefinition = read()
-        return gsApiActionDefinition
+        return allowedInWhere(read())
     }
 
     GsApiActionDefinition details() {
