@@ -30,6 +30,7 @@ class User implements DomainTask {
 
     static constraints = {
         message(nullable: true)
+        lastName(nullable: true)
         profilePicture(nullable: true)
         email(unique: true, nullable: false)
     }
