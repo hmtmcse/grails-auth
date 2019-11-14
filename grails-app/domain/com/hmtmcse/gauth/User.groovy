@@ -1,7 +1,9 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.gcommon.DomainTask
+import com.hmtmcse.org.InstanceIdentity
 import grails.gorm.MultiTenant
+import org.grails.datastore.mapping.core.connections.ConnectionSource
 
 
 class User implements DomainTask {
@@ -9,6 +11,7 @@ class User implements DomainTask {
     Integer id
     Boolean isActive = true
     Boolean isDeleted = false
+    Boolean isOwner = false
     Date dateCreated
     Date lastUpdated
     String uuid
@@ -24,6 +27,8 @@ class User implements DomainTask {
     Set<UserAccessGroup> userAccessGroups = []
     Set<UserProfile> userProfile = []
 
+    InstanceIdentity instanceIdentity
+
 
     static belongsTo = [UserAccessGroup]
     static hasMany = [userAccessLists: UserAccessList, userAccessGroups: UserAccessGroup, userProfile: UserProfile]
@@ -31,6 +36,7 @@ class User implements DomainTask {
     static constraints = {
         message(nullable: true)
         lastName(nullable: true)
+        instanceIdentity(nullable: true)
         profilePicture(nullable: true)
         email(unique: true, nullable: false)
     }
