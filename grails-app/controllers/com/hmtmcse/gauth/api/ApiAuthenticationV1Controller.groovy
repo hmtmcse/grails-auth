@@ -15,5 +15,9 @@ class ApiAuthenticationV1Controller extends GsRestProcessor {
         return customProcessor(authenticationDefinitionService.logout())
     }
 
+    def postRenew() {
+        return customProcessor(authenticationDefinitionService.renew())
+    }
+
 
 }

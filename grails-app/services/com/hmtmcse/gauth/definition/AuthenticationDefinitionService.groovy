@@ -12,8 +12,17 @@ class AuthenticationDefinitionService {
 
     UserService userService
 
-    GsApiActionDefinition login() {
+    GsApiActionDefinition authDefinition() {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
+        gsApiActionDefinition.includeAllThenExcludeFromResponse(
+                ["password", "dateCreated", "lastUpdated", "version", "isActive", "isDeleted"]
+        )
+        gsApiActionDefinition.successResponseAsData()
+        return gsApiActionDefinition
+    }
+
+    GsApiActionDefinition login() {
+        GsApiActionDefinition gsApiActionDefinition = authDefinition()
         gsApiActionDefinition.addRequestProperty("email").required()
         gsApiActionDefinition.addRequestProperty("password").required()
         gsApiActionDefinition.customProcessor = new CustomProcessor() {
@@ -22,10 +31,6 @@ class AuthenticationDefinitionService {
                 return userService.login(actionDefinition, paramData, apiHelper)
             }
         }
-        gsApiActionDefinition.includeAllThenExcludeFromResponse(
-                ["password", "dateCreated", "lastUpdated", "version", "isActive", "isDeleted"]
-        )
-        gsApiActionDefinition.successResponseAsData()
         gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Invalid email or password !!")
         return gsApiActionDefinition
     }
@@ -44,6 +49,18 @@ class AuthenticationDefinitionService {
         return gsApiActionDefinition
     }
 
+    GsApiActionDefinition renew() {
+        GsApiActionDefinition gsApiActionDefinition = authDefinition()
+        gsApiActionDefinition.customProcessor = new CustomProcessor() {
+            @Override
+            GsApiResponseData process(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
+                return userService.renew(actionDefinition, paramData, apiHelper)
+            }
+        }
+        gsApiActionDefinition.addRequestProperty("refreshToken").required()
+        gsApiActionDefinition.failedResponseFormat = GsApiResponseData.failed("Token Expired!")
+        return gsApiActionDefinition
+    }
 
 
 }
