@@ -98,6 +98,7 @@ class UserService {
         return GsApiResponseData.successMessage("Successfully Change Status.")
     }
 
+
     GsApiResponseData makeAuthResponse(User user, GsApiActionDefinition actionDefinition, ApiHelper apiHelper){
         Map userInfo = [:]
         if (user){
@@ -108,7 +109,7 @@ class UserService {
         return apiHelper.help.responseToApi(actionDefinition, user)
     }
 
-
+    @Transactional
     GsApiResponseData renew(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         String refreshToken = paramData.filteredGrailsParameterMap.refreshToken
         if (refreshToken){
