@@ -1,11 +1,9 @@
-package com.hmtmcse.nav
+package com.hmtmcse.define
 
-import com.hmtmcse.gauth.User
-import com.hmtmcse.gauth.UserAccessGroup
 import com.hmtmcse.gcommon.DomainTask
 import grails.gorm.MultiTenant
 
-class Navigation  implements MultiTenant<Navigation>, DomainTask {
+class NavDef implements MultiTenant<NavDef>, DomainTask {
 
     Integer id
     Boolean isActive = true
@@ -20,19 +18,14 @@ class Navigation  implements MultiTenant<Navigation>, DomainTask {
 
     String controllerName
     Boolean isAllowedAllAction = false
-    Map<String, Boolean> actionName = [:]
+    NavDef parent
 
-    Navigation parent
-    UserAccessGroup userAccessGroup
-    User user
 
-    static hasMany = [navigations: Navigation]
+    static hasMany = [navigations: NavDef]
 
     static constraints = {
         url(nullable: true)
         parent(nullable: true)
-        userAccessGroup(nullable: true)
-        user(nullable: true)
     }
 
 }

@@ -12,6 +12,13 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     Date lastUpdated
     String uuid
 
+    String groupDisplayName
+    String groupName
+    String groupUrl
+    String displayName
+    String name
+    String url
+
     String controllerName
     Boolean isAllowedAllAction = false
     Map<String, Boolean> actionName = [:]
@@ -26,6 +33,11 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     static belongsTo = [user: User, userAccessGroup: UserAccessGroup]
 
     static constraints = {
+        url(nullable: true)
+        name(nullable: true)
+        groupDisplayName(nullable: true)
+        groupName(nullable: true)
+        groupUrl(nullable: true)
         user(nullable: true)
         userAccessGroup(nullable: true)
         filterParamName(nullable: true)
