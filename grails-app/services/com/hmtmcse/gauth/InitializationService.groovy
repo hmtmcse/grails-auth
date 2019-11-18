@@ -4,7 +4,8 @@ package com.hmtmcse.gauth
 class InitializationService {
 
     def aclInit() {
-        Map group = [
+
+        List group = [
                 [
                         name      : "Administrator",
                         identifier: AuthConstant.GROUP_ADMINISTRATOR
@@ -27,7 +28,7 @@ class InitializationService {
             }
         }
 
-        Map userMap = [
+        List userMap = [
                 [
                         firstName: "Administrator",
                         email: "admin@grails786.com",
@@ -50,7 +51,7 @@ class InitializationService {
 
         User user
         if (User.count() == 0){
-            user.each {
+            userMap.each {
                 user = new User(it)
                 user.addToUserAccessGroups(UserAccessGroup.findByIdentifier(it.identifier))
                 user.save()

@@ -11,11 +11,11 @@ class User implements DomainTask {
     Integer id
     Boolean isActive = true
     Boolean isDeleted = false
-    Boolean isOwner = false
     Date dateCreated
     Date lastUpdated
     String uuid
 
+    Boolean isOwner = false
 
     String firstName
     String lastName

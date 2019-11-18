@@ -1,9 +1,11 @@
-package com.hmtmcse.gauth
+package com.hmtmcse.nav
 
+import com.hmtmcse.gauth.User
+import com.hmtmcse.gauth.UserAccessGroup
 import com.hmtmcse.gcommon.DomainTask
 import grails.gorm.MultiTenant
 
-class UserAccess implements MultiTenant<UserAccess>, DomainTask {
+class Navigation  implements MultiTenant<Navigation>, DomainTask {
 
     Integer id
     Boolean isActive = true
@@ -12,22 +14,25 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     Date lastUpdated
     String uuid
 
+    String displayName
+    String name
+    String url
+
     String controllerName
     Boolean isAllowedAllAction = false
     Map<String, Boolean> actionName = [:]
 
-    String filterParamName
-    Map<String, Boolean> filterParamAllowed = [:]
-    Map<String, Boolean> filterParamDenied = [:]
-
-    User user
+    Navigation parent
     UserAccessGroup userAccessGroup
+    User user
 
-    static belongsTo = [user: User, userAccessGroup: UserAccessGroup]
+    static hasMany = [navigations: Navigation]
 
     static constraints = {
-        user(nullable: true)
+        url(nullable: true)
+        parent(nullable: true)
         userAccessGroup(nullable: true)
-        filterParamName(nullable: true)
+        user(nullable: true)
     }
+
 }
