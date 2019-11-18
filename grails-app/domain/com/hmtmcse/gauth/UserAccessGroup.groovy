@@ -12,11 +12,13 @@ class UserAccessGroup implements DomainTask {
     String uuid
 
     String name
+    String identifier
     Set<User> users = []
-    Set<UserAccessList> userAccessLists = []
+    Set<UserAccess> userAccesses = []
 
+    static hasMany = [users: User, userAccesses: UserAccess]
 
-    static hasMany = [users: User, userAccessLists: UserAccessList]
-
-    static constraints = {}
+    static constraints = {
+        identifier(unique: true, nullable: true)
+    }
 }
