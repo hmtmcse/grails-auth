@@ -18,6 +18,7 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     String displayName
     String name
     String url
+    String icon
 
     String controllerName
     Boolean isAllowedAllAction = false
@@ -33,6 +34,7 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     static belongsTo = [user: User, userAccessGroup: UserAccessGroup]
 
     static constraints = {
+        icon(nullable: true)
         url(nullable: true)
         name(nullable: true)
         groupDisplayName(nullable: true)

@@ -23,17 +23,17 @@ class User implements DomainTask {
     String password
     String profilePicture
     String message
-    Set<UserAccessGroup> userAccessGroups = []
-    Set<UserProfile> userProfile = []
     InstanceIdentity instanceIdentity
+    UserProfile userProfile
+    UserAccessGroup userAccessGroup
 
-    static hasMany = [userAccessGroups: UserAccessGroup, userProfile: UserProfile]
 
     static constraints = {
         message(nullable: true)
         lastName(nullable: true)
         instanceIdentity(nullable: true)
         profilePicture(nullable: true)
+        userProfile(nullable: true)
         email(unique: true, nullable: false)
     }
 

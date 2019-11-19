@@ -15,6 +15,10 @@ class NavDef implements MultiTenant<NavDef>, DomainTask {
     String displayName
     String name
     String url
+    String icon
+    String groupDisplayName
+    String groupName
+    String groupUrl
 
     String controllerName
     Boolean isAllowedAllAction = false
@@ -24,8 +28,12 @@ class NavDef implements MultiTenant<NavDef>, DomainTask {
     static hasMany = [navigations: NavDef]
 
     static constraints = {
+        icon(nullable: true)
         url(nullable: true)
         parent(nullable: true)
+        groupName(nullable: true)
+        groupDisplayName(nullable: true)
+        groupUrl(nullable: true)
     }
 
 }
