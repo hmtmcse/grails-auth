@@ -61,6 +61,54 @@ class UserService {
     }
 
 
+    List<UserAccess> getAllAccess(User user, UserAccessGroup userAccessGroup) {
+        List<UserAccess> accesses = UserAccess.createCriteria().list {
+            or{
+                eq("user", user)
+                eq("userAccessGroup", userAccessGroup)
+            }
+            and {
+                eq("isActive", true)
+                eq("isDeleted", false)
+            }
+            order("navOrder", "asc")
+        }
+        return accesses
+    }
+
+    Map getAllAccessMap(User user, UserAccessGroup userAccessGroup) {
+        List<UserAccess> accesses = getAllAccess(user, userAccessGroup)
+        Map accessMap = [:]
+        List navList = []
+        Map navMap = [:]
+        if (accesses) {
+            accesses.each { access ->
+                accessMap[access.controllerName] = [
+                        isAllowedAllAction: access.isAllowedAllAction,
+                        actionName        : access.actionName,
+                        filterParamName   : access.filterParamName,
+                        filterParamAllowed: access.filterParamAllowed,
+                        filterParamDenied : access.filterParamDenied,
+                ]
+                navMap = [:]
+                navMap = [
+                        groupDisplayName: access.groupDisplayName ?: "",
+                        groupName       : access.groupName ?: "",
+                        groupUrl        : access.groupUrl ?: "",
+                        displayName     : access.displayName ?: "",
+                        name            : access.name ?: "",
+                        url             : access.url ?: "",
+                        icon            : access.icon ?: "",
+                ]
+                navList.add(navMap)
+            }
+        }
+        return [
+                access : accessMap,
+                navList: navList,
+        ]
+    }
+
 
     GsApiResponseData login(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         String email = paramData.filteredGrailsParameterMap.email
@@ -104,6 +152,7 @@ class UserService {
         if (user){
             userInfo.user = apiHelper.help.responseMapGenerator(actionDefinition.getResponseProperties(), user)
             userInfo.login = jwtAuthService.jwtTokenGen(user)
+            userInfo += getAllAccessMap(user, user.userAccessGroup)
             return GsApiResponseData.successResponse(userInfo)
         }
         return apiHelper.help.responseToApi(actionDefinition, user)

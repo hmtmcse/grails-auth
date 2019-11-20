@@ -12,6 +12,7 @@ class NavDef implements MultiTenant<NavDef>, DomainTask {
     Date lastUpdated
     String uuid
 
+    Integer navOrder = 0
     String displayName
     String name
     String url

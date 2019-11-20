@@ -19,6 +19,7 @@ class UserAccess implements MultiTenant<UserAccess>, DomainTask {
     String name
     String url
     String icon
+    Integer navOrder = 0
 
     String controllerName
     Boolean isAllowedAllAction = false

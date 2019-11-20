@@ -15,9 +15,10 @@ class AuthInitializationService {
                         displayName: "Dashboard",
                         name: "dashboard",
                         url: "/dashboard",
-                        controllerName: "apiUserV1",
+                        controllerName: "apiDashboardV1",
                         isAllowedAllAction: true,
-                        icon: "",
+                        navList: 0,
+                        icon: "dashboard",
                         actions: [:],
                 ],
                 [
@@ -28,7 +29,8 @@ class AuthInitializationService {
                         groupName: "access-control",
                         controllerName: "apiUserV1",
                         isAllowedAllAction: false,
-                        icon: "",
+                        navList: 999,
+                        icon: "rowing",
                         actions: [
                                 [
                                         displayName: "Details",
