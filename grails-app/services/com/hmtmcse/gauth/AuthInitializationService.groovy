@@ -7,6 +7,8 @@ import grails.gorm.transactions.Transactional
 
 class AuthInitializationService {
 
+    NavigationService navigationService
+
     @Transactional
     def aclInit() {
 
@@ -17,7 +19,7 @@ class AuthInitializationService {
                         url: "/dashboard",
                         controllerName: "apiDashboardV1",
                         isAllowedAllAction: true,
-                        navList: 0,
+                        navOrder: 0,
                         icon: "dashboard",
                         actions: [:],
                 ],
@@ -29,7 +31,7 @@ class AuthInitializationService {
                         groupName: "access-control",
                         controllerName: "apiUserV1",
                         isAllowedAllAction: false,
-                        navList: 999,
+                        navOrder: 99,
                         icon: "rowing",
                         actions: [
                                 [
@@ -75,28 +77,7 @@ class AuthInitializationService {
         ]
 
         if (NavDef.count() == 0){
-            navigation.each {it ->
-                NavDef navDef = new NavDef(it)
-                navDef.save()
-                if (navDef.hasErrors()){
-                    navDef.errors.each {
-                        println(it)
-                    }
-                }else if (it.actions){
-                    NavItemDef navItemDef
-                    it.actions.each { action ->
-                        navItemDef = new NavItemDef(action)
-                        navItemDef.navDef = navDef
-                        navItemDef.actionName = action.actionName
-                        navItemDef.save()
-                        if (navItemDef.hasErrors()){
-                            navItemDef.errors.each {
-                                println(it)
-                            }
-                        }
-                    }
-                }
-            }
+            navigationService.addNavigation(navigation)
         }
 
 
