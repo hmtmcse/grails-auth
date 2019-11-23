@@ -3,17 +3,13 @@ package com.hmtmcse.gauth.definition
 import com.hmtmcse.gauth.User
 import com.hmtmcse.gauth.UserService
 import com.hmtmcse.gs.GsApiActionDefinition
-import com.hmtmcse.gs.GsRequestParamException
 import com.hmtmcse.gs.GsUtil
 import com.hmtmcse.gs.data.ApiHelper
-import com.hmtmcse.gs.data.GsApiRequestProperty
 import com.hmtmcse.gs.data.GsApiResponseData
 import com.hmtmcse.gs.data.GsFilteredData
 import com.hmtmcse.gs.data.GsParamsPairData
 import com.hmtmcse.gs.model.CustomProcessor
-import com.hmtmcse.gs.model.CustomRequestParamProcessor
 import com.hmtmcse.gs.model.RequestPreProcessor
-
 
 class UserDefinitionService {
 
@@ -42,9 +38,9 @@ class UserDefinitionService {
     }
 
 
-    private GsApiActionDefinition read() {
+    private GsApiActionDefinition read(Boolean onlyActiveUser = false) {
         GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
-        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(["password", "version"])
+        gsApiActionDefinition.includeAllNotRelationalThenExcludeFromResponse(["password", "version", "isDeleted"])
         gsApiActionDefinition = GsUtil.commonHelpService.responseDateFormat(gsApiActionDefinition, "dateCreated")
         gsApiActionDefinition = GsUtil.commonHelpService.responseDateFormat(gsApiActionDefinition, "lastUpdated")
         gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
@@ -52,6 +48,10 @@ class UserDefinitionService {
             GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
                 definition.addToWhereFilterProperty("isDeleted")
                 gsFilteredData.where.addEqual("isDeleted", false)
+                if (onlyActiveUser) {
+                    definition.addToWhereFilterProperty("isActive")
+                    gsFilteredData.where.addEqual("isActive", onlyActiveUser)
+                }
                 return gsFilteredData
             }
         }

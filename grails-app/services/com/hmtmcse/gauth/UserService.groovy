@@ -41,6 +41,15 @@ class UserService {
         }
     }
 
+    def allActiveUserList() {
+        return User.createCriteria().list {
+            and{
+                eq("isDeleted", false)
+                eq("isActive", true)
+            }
+        }
+    }
+
 
     GsApiResponseData restPassword(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         String password = paramData.filteredGrailsParameterMap.password
