@@ -44,9 +44,7 @@ class ApiUserV1Controller extends GsRestProcessor {
     }
 
 
-    def getLogout(){}
 
-    def postChangePassword(){}
 
     def postResetPassword(){}
 
