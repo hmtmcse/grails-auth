@@ -25,8 +25,8 @@ class AuthInitializationService {
                 ],
                 [
                         displayName: "User",
-                        name: "user",
-                        url: "/user",
+                        name: "users",
+                        url: "/users",
                         groupDisplayName: "Access Control",
                         groupName: "access-control",
                         controllerName: "apiUserV1",
