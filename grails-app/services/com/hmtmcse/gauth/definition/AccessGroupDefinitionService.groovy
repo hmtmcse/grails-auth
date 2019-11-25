@@ -1,7 +1,10 @@
 package com.hmtmcse.gauth.definition
 
 import com.hmtmcse.gauth.User
+import com.hmtmcse.gauth.UserAccessGroup
 import com.hmtmcse.gs.GsApiActionDefinition
+import com.hmtmcse.gs.data.GsFilteredData
+import com.hmtmcse.gs.model.RequestPreProcessor
 
 
 class AccessGroupDefinitionService {
@@ -11,8 +14,27 @@ class AccessGroupDefinitionService {
         return gsApiActionDefinition
     }
 
+    GsApiActionDefinition groupList(){
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<UserAccessGroup>(UserAccessGroup)
+        gsApiActionDefinition.addResponseProperty("name")
+        gsApiActionDefinition.addResponseProperty("id")
+        gsApiActionDefinition.addResponseProperty("uuid")
+        gsApiActionDefinition.requestPreProcessor = new RequestPreProcessor() {
+            @Override
+            GsFilteredData process(GsApiActionDefinition definition, GsFilteredData gsFilteredData) {
+                definition.addToWhereFilterProperty("isDeleted")
+                gsFilteredData.where.addEqual("isDeleted", false)
+                definition.addToWhereFilterProperty("isActive")
+                gsFilteredData.where.addEqual("isActive", true)
+                return gsFilteredData
+            }
+        }
+        return gsApiActionDefinition
+    }
+
     GsApiActionDefinition read(){
-        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<User>(User)
+        GsApiActionDefinition gsApiActionDefinition = new GsApiActionDefinition<UserAccessGroup>(UserAccessGroup)
+
         return gsApiActionDefinition
     }
 

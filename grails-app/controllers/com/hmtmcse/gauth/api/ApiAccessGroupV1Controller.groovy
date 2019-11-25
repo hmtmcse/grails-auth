@@ -25,4 +25,9 @@ class ApiAccessGroupV1Controller extends GsRestProcessor {
 
     def getActiveInactive(){}
 
+
+    def getGroupList(){
+        return listOnly(accessGroupDefinitionService.groupList())
+    }
+
 }
