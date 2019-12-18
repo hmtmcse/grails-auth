@@ -10,7 +10,7 @@ class NavigationService {
     @Transactional
     def addNavigation(List navigation) {
 
-        if (navigation){
+        if (!navigation){
             return
         }
         navigation.each {it ->
