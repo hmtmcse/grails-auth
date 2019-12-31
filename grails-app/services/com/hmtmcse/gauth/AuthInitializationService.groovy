@@ -1,9 +1,7 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.define.NavDef
-import com.hmtmcse.define.NavItemDef
 import grails.gorm.transactions.Transactional
-
 
 class AuthInitializationService {
 
@@ -14,61 +12,61 @@ class AuthInitializationService {
 
         List navigation = [
                 [
-                        displayName: "Dashboard",
-                        name: "dashboard",
-                        url: "/dashboard",
-                        controllerName: "apiDashboardV1",
+                        displayName       : "Dashboard",
+                        name              : "dashboard",
+                        url               : "/dashboard",
+                        controllerName    : "apiDashboardV1",
                         isAllowedAllAction: true,
-                        navOrder: 0,
-                        icon: "dashboard",
-                        actions: [:],
+                        navOrder          : 0,
+                        icon              : "dashboard",
+                        actions           : [:],
                 ],
                 [
-                        displayName: "User",
-                        name: "users",
-                        url: "/users",
-                        groupDisplayName: "Access Control",
-                        groupName: "access-control",
-                        controllerName: "apiUserV1",
+                        displayName       : "User",
+                        name              : "users",
+                        url               : "/users",
+                        groupDisplayName  : "Access Control",
+                        groupName         : "access-control",
+                        controllerName    : "apiUserV1",
                         isAllowedAllAction: false,
-                        navOrder: 99,
-                        icon: "rowing",
-                        actions: [
+                        navOrder          : 99,
+                        icon              : "rowing",
+                        actions           : [
                                 [
                                         displayName: "Details",
-                                        actionName: [
+                                        actionName : [
                                                 "postDetails": true,
-                                                "getDetails": true,
+                                                "getDetails" : true,
                                         ]
                                 ],
                                 [
                                         displayName: "List",
-                                        actionName: [
+                                        actionName : [
                                                 "postList": true,
-                                                "getList": true
+                                                "getList" : true
                                         ]
                                 ],
                                 [
                                         displayName: "Create",
-                                        actionName: [
+                                        actionName : [
                                                 "postCreate": true
                                         ]
                                 ],
                                 [
                                         displayName: "Delete",
-                                        actionName: [
+                                        actionName : [
                                                 "deleteDelete": true
                                         ]
                                 ],
                                 [
                                         displayName: "Update",
-                                        actionName: [
+                                        actionName : [
                                                 "postUpdate": true
                                         ]
                                 ],
                                 [
                                         displayName: "Active Inactive",
-                                        actionName: [
+                                        actionName : [
                                                 "getActiveInactive": true
                                         ]
                                 ]
@@ -76,15 +74,11 @@ class AuthInitializationService {
                 ]
         ]
 
-        if (NavDef.count() == 0){
-            navigationService.addNavigation(navigation)
-        }
 
 
-
-        if (UserAccessGroup.count() == 0){
+        if (UserAccessGroup.count() == 0) {
             UserAccess userAccess
-            UserAccessGroup userAccessGroup =  new UserAccessGroup(name: "Administrator", identifier: AuthConstant.GROUP_ADMINISTRATOR)
+            UserAccessGroup userAccessGroup = new UserAccessGroup(name: "Administrator", identifier: AuthConstant.GROUP_ADMINISTRATOR)
             userAccessGroup.save()
             navigation.each { access ->
                 userAccess = new UserAccess(access)
@@ -94,15 +88,15 @@ class AuthInitializationService {
                 userAccess.save()
             }
 
-            userAccessGroup =  new UserAccessGroup(name: "Manager", identifier: AuthConstant.GROUP_MANAGER)
+            userAccessGroup = new UserAccessGroup(name: "Manager", identifier: AuthConstant.GROUP_MANAGER)
             userAccessGroup.save()
             navigation.each { access ->
                 userAccess = new UserAccess(access)
                 userAccess.userAccessGroup = userAccessGroup
                 Map actionName = [:]
-                if (access.actions){
+                if (access.actions) {
                     access.actions.each {
-                        if (it.displayName.contains("Delete")){
+                        if (it.displayName.contains("Delete")) {
                             return
                         }
                         actionName += it.actionName
@@ -113,18 +107,18 @@ class AuthInitializationService {
             }
 
 
-            userAccessGroup =  new UserAccessGroup(name: "User", identifier: AuthConstant.GROUP_USER)
+            userAccessGroup = new UserAccessGroup(name: "User", identifier: AuthConstant.GROUP_USER)
             userAccessGroup.save()
             navigation.each { access ->
-                if (access.displayName == "User"){
+                if (access.displayName == "User") {
                     return
                 }
                 userAccess = new UserAccess(access)
                 userAccess.userAccessGroup = userAccessGroup
                 Map actionName = [:]
-                if (access.actions){
+                if (access.actions) {
                     access.actions.each {
-                        if (it.displayName.contains("Delete") || it.displayName.contains("Create") || it.displayName.contains("Update")){
+                        if (it.displayName.contains("Delete") || it.displayName.contains("Create") || it.displayName.contains("Update")) {
                             return
                         }
                         actionName += it.actionName
@@ -138,27 +132,27 @@ class AuthInitializationService {
 
         List userMap = [
                 [
-                        firstName: "Administrator",
-                        email: "admin@grails786.com",
-                        password: "admin",
+                        firstName : "Administrator",
+                        email     : "admin@grails786.com",
+                        password  : "admin",
                         identifier: AuthConstant.GROUP_ADMINISTRATOR
                 ],
                 [
-                        firstName: "Manager",
-                        email: "manager@grails786.com",
-                        password: "manager",
+                        firstName : "Manager",
+                        email     : "manager@grails786.com",
+                        password  : "manager",
                         identifier: AuthConstant.GROUP_MANAGER
                 ],
                 [
-                        firstName: "User",
-                        email: "user@grails786.com",
-                        password: "user",
+                        firstName : "User",
+                        email     : "user@grails786.com",
+                        password  : "user",
                         identifier: AuthConstant.GROUP_USER
                 ]
         ]
 
         User user
-        if (User.count() == 0){
+        if (User.count() == 0) {
             userMap.each {
                 user = new User(it)
                 user.userAccessGroup = UserAccessGroup.findByIdentifier(it.identifier)
@@ -166,6 +160,8 @@ class AuthInitializationService {
             }
         }
 
-
+        if (NavDef.count() == 0) {
+            navigationService.addNavigation(navigation)
+        }
     }
 }
