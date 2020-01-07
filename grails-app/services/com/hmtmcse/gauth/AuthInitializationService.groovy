@@ -1,14 +1,20 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.define.NavDef
+import com.hmtmcse.gcommon.TMGUtil
 import grails.gorm.transactions.Transactional
 
 class AuthInitializationService {
 
     NavigationService navigationService
+    SettingService settingService
 
     @Transactional
     def aclInit() {
+
+        if (!settingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)){
+            settingService.saveSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY, TMGUtil.uuid())
+        }
 
         List navigation = [
                 [

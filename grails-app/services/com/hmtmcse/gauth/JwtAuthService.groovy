@@ -1,6 +1,7 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.caa.jwt.JavaJWT
+import com.hmtmcse.common.Settings
 import com.hmtmcse.gauth.jwt.JavaJWTData
 import com.hmtmcse.gcommon.TMDateTimeUtil
 import com.hmtmcse.gcommon.TMGUtil
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest
 
 
 class JwtAuthService {
+
+    SettingService settingService
 
     def getToken(String issuer, JavaJWTData javaJWTData) {
         JavaJWT javaJWT = JavaJWT.hmackInstance(javaJWTData.algorithm, javaJWTData.secret).tokenValidUntilUTCMinutes(javaJWTData.expireInMinutes)
@@ -45,7 +48,12 @@ class JwtAuthService {
     }
 
     def isAuthenticated(HttpServletRequest request) {
-        return isAuthenticated(request, new JavaJWTData())
+        Settings settings = settingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)
+        JavaJWTData javaJWTData = new JavaJWTData();
+        if (settings && settings.value) {
+            javaJWTData.secret = settings.value
+        }
+        return isAuthenticated(request, javaJWTData)
     }
 
 

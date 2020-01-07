@@ -9,6 +9,5 @@ class BootStrap {
         authInitializationService.aclInit()
     }
 
-    def destroy = {
-    }
+    def destroy = {}
 }
