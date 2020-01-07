@@ -36,12 +36,17 @@ class JwtAuthService {
 
 
     def isAuthenticated(HttpServletRequest request, JavaJWTData javaJWTData) {
+        String jwtToken = request.getParameter("jwtToken")
+        if (jwtToken) {
+            return isValidToken(jwtToken, javaJWTData)
+        }
+
         String authorizationHeader = request.getHeader("Authorization")
-        if (!authorizationHeader || !authorizationHeader.startsWith("Bearer")){
+        if (!authorizationHeader || !authorizationHeader.startsWith("Bearer")) {
             return false
         }
         String[] splittedBearer = authorizationHeader.split("Bearer")
-        if (splittedBearer.length < 2){
+        if (splittedBearer.length < 2) {
             return false
         }
         return isValidToken(splittedBearer[1].trim(), javaJWTData)
