@@ -3,7 +3,7 @@ package com.hmtmcse.common
 import com.hmtmcse.gcommon.DomainTask
 import grails.gorm.MultiTenant
 
-class Settings implements MultiTenant<Settings>, DomainTask {
+class AuthSetting implements MultiTenant<AuthSetting>, DomainTask {
 
     Integer id
     Boolean isActive = true
@@ -13,8 +13,8 @@ class Settings implements MultiTenant<Settings>, DomainTask {
     String uuid
 
     String settingGroup
-    String key
-    String value
+    String dataKey
+    String dataValue
     String otherInfo
     String description
     String json

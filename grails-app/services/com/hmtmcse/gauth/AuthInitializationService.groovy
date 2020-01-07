@@ -7,13 +7,13 @@ import grails.gorm.transactions.Transactional
 class AuthInitializationService {
 
     NavigationService navigationService
-    SettingService settingService
+    AuthSettingService authSettingService
 
     @Transactional
     def aclInit() {
 
-        if (!settingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)){
-            settingService.saveSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY, TMGUtil.uuid())
+        if (!authSettingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)){
+            authSettingService.saveSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY, TMGUtil.uuid())
         }
 
         List navigation = [
