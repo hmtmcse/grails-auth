@@ -11,6 +11,8 @@ class GrailsAuthGrailsPlugin extends Plugin {
         "grails-app/views/error.gsp"
     ]
 
+    def version = "1.0.0"
+
     // TODO Fill in these fields
     def title = "Plugin" // Headline display name of the plugin
     def author = "Your name"
