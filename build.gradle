@@ -15,6 +15,20 @@ dependencies {
     compile project(":java-crypto-and-auth")
 }
 
+def dependencyList = [
+        "grails-common",
+        "grails-swagger",
+        "java-crypto-and-auth",
+]
+
+dependencies {
+    dependencyList.each {
+        if (findProject(":" + it)){
+            compile project(":" + it)
+        }
+    }
+}
+
 
 grailsPublish {
     user = project.hasProperty('publishUser') ? project.property('publishUser') : 'hmtmcse'
