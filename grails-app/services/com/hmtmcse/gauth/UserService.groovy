@@ -186,4 +186,25 @@ class UserService {
         return makeAuthResponse(null, actionDefinition, apiHelper)
     }
 
+
+
+    def insertUser(List listOfUserMap){
+        User user
+        if (User.count() == 0) {
+            listOfUserMap.each {
+                user = new User(it)
+                user.userAccessGroup = UserAccessGroup.findByIdentifier(it.identifier)
+                user.save()
+            }
+        }
+    }
+
+    def deleteAllUser() {
+        def listOfUser = User.list()
+        listOfUser.each {
+            it.delete()
+        }
+    }
+
+
 }

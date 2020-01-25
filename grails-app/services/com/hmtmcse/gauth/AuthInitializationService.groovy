@@ -8,6 +8,8 @@ class AuthInitializationService {
 
     NavigationService navigationService
     AuthSettingService authSettingService
+    UserService userService
+
 
     @Transactional
     def aclInit() {
@@ -80,6 +82,26 @@ class AuthInitializationService {
                 ]
         ]
 
+        List userMap = [
+                [
+                        firstName : "Administrator",
+                        email     : "admin@grails786.com",
+                        password  : "admin",
+                        identifier: AuthConstant.GROUP_ADMINISTRATOR
+                ],
+                [
+                        firstName : "Manager",
+                        email     : "manager@grails786.com",
+                        password  : "manager",
+                        identifier: AuthConstant.GROUP_MANAGER
+                ],
+                [
+                        firstName : "User",
+                        email     : "user@grails786.com",
+                        password  : "user",
+                        identifier: AuthConstant.GROUP_USER
+                ]
+        ]
 
 
         if (UserAccessGroup.count() == 0) {
@@ -136,35 +158,7 @@ class AuthInitializationService {
 
         }
 
-        List userMap = [
-                [
-                        firstName : "Administrator",
-                        email     : "admin@grails786.com",
-                        password  : "admin",
-                        identifier: AuthConstant.GROUP_ADMINISTRATOR
-                ],
-                [
-                        firstName : "Manager",
-                        email     : "manager@grails786.com",
-                        password  : "manager",
-                        identifier: AuthConstant.GROUP_MANAGER
-                ],
-                [
-                        firstName : "User",
-                        email     : "user@grails786.com",
-                        password  : "user",
-                        identifier: AuthConstant.GROUP_USER
-                ]
-        ]
-
-        User user
-        if (User.count() == 0) {
-            userMap.each {
-                user = new User(it)
-                user.userAccessGroup = UserAccessGroup.findByIdentifier(it.identifier)
-                user.save()
-            }
-        }
+        userService.insertUser(userMap)
 
         if (NavDef.count() == 0) {
             navigationService.addNavigation(navigation)
