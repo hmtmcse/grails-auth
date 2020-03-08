@@ -18,6 +18,16 @@ class AuthSettingService {
         }
     }
 
+    Boolean cleanJwtKey() {
+        def jwt = AuthSetting.createCriteria().list {
+            eq("settingGroup", AuthConstant.JWT_SETTING_GROUP)
+            eq("dataKey", AuthConstant.JWT_KEY)
+        }
+        if (jwt) {
+            jwt*.delete()
+        }
+    }
+
     AuthSetting saveSetting(String groupName, String key, String value) {
         AuthSetting settings = new AuthSetting(settingGroup: groupName, dataKey: key, dataValue: value)
         settings.save()
