@@ -187,18 +187,36 @@ class UserService {
     }
 
 
-
-    def insertUser(List listOfUserMap){
+    @Transactional
+    Boolean insertUser(List listOfUserMap) {
         User user
         if (User.count() == 0) {
             listOfUserMap.each {
                 user = new User(it)
                 user.userAccessGroup = UserAccessGroup.findByIdentifier(it.identifier)
                 user.save()
+                if (user.hasErrors()) {
+                    user.errors.each {
+                        println("Error Insert User: ${it}")
+                    }
+                }
             }
+            return true
         }
+        return false
     }
 
+    Boolean isDefaultInitUserExist() {
+        def defaultUsers = User.createCriteria().list {
+            like("email", "%@grailsengine.com")
+        }
+        if (User.count() == 0 || defaultUsers) {
+            return true
+        }
+        return false
+    }
+
+    @Transactional
     def deleteAllUser() {
         def listOfUser = User.list()
         listOfUser.each {

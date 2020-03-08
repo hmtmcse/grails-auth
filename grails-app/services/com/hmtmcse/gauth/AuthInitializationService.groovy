@@ -85,19 +85,19 @@ class AuthInitializationService {
         List userMap = [
                 [
                         firstName : "Administrator",
-                        email     : "admin@grails786.com",
+                        email     : "admin@grailsengine.com",
                         password  : "admin",
                         identifier: AuthConstant.GROUP_ADMINISTRATOR
                 ],
                 [
                         firstName : "Manager",
-                        email     : "manager@grails786.com",
+                        email     : "manager@grailsengine.com",
                         password  : "manager",
                         identifier: AuthConstant.GROUP_MANAGER
                 ],
                 [
                         firstName : "User",
-                        email     : "user@grails786.com",
+                        email     : "user@grailsengine.com",
                         password  : "user",
                         identifier: AuthConstant.GROUP_USER
                 ]
