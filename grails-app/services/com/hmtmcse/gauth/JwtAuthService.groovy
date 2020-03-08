@@ -53,12 +53,17 @@ class JwtAuthService {
     }
 
     def isAuthenticated(HttpServletRequest request) {
+        JavaJWTData javaJWTData = getJavaJWTData()
+        return isAuthenticated(request, javaJWTData)
+    }
+
+    def getJavaJWTData(){
         AuthSetting settings = authSettingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)
         JavaJWTData javaJWTData = new JavaJWTData();
         if (settings && settings.dataValue) {
             javaJWTData.secret = settings.dataValue
         }
-        return isAuthenticated(request, javaJWTData)
+        return javaJWTData
     }
 
 
@@ -69,7 +74,7 @@ class JwtAuthService {
         tokenHolder.user = user
         response.refreshToken = tokenHolder.token
         tokenHolder.save()
-        JavaJWTData javaJWTData = new JavaJWTData()
+        JavaJWTData javaJWTData = getJavaJWTData()
         response.accessToken = getToken("${user.firstName} ${user.lastName}", javaJWTData.addClaim("id", user.uuid) )
         return response
     }

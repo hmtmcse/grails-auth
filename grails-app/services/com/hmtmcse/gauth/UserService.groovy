@@ -171,7 +171,7 @@ class UserService {
     GsApiResponseData renew(GsApiActionDefinition actionDefinition, GsParamsPairData paramData, ApiHelper apiHelper) {
         String refreshToken = paramData.filteredGrailsParameterMap.refreshToken
         if (refreshToken){
-            JavaJWTData javaJWTData = new JavaJWTData()
+            JavaJWTData javaJWTData = jwtAuthService.getJavaJWTData()
             Long expire = TimeUnit.MINUTES.toMillis(Long.parseLong(javaJWTData.refreshTokenExpireInMinutes + ""))
             TokenHolder tokenHolder = TokenHolder.findByToken(refreshToken)
             if (tokenHolder && tokenHolder.timeMillis){
