@@ -1,6 +1,7 @@
 package com.hmtmcse.gauth
 
 import com.hmtmcse.common.AuthSetting
+import grails.gorm.transactions.Transactional
 
 
 class AuthSettingService {
@@ -18,6 +19,7 @@ class AuthSettingService {
         }
     }
 
+    @Transactional
     Boolean cleanJwtKey() {
         def jwt = AuthSetting.createCriteria().list {
             eq("settingGroup", AuthConstant.JWT_SETTING_GROUP)
