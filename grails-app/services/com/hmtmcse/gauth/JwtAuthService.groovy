@@ -15,8 +15,8 @@ class JwtAuthService {
 
     def getToken(String issuer, JavaJWTData javaJWTData) {
         JavaJWT javaJWT = JavaJWT.hmackInstance(javaJWTData.algorithm, javaJWTData.secret).tokenValidUntilUTCMinutes(javaJWTData.expireInMinutes)
-        if (javaJWTData.claims){
-            javaJWTData.claims.each {String key, def value ->
+        if (javaJWTData.claims) {
+            javaJWTData.claims.each { String key, def value ->
                 javaJWT.privateClaims(key, value)
             }
         }
@@ -29,7 +29,7 @@ class JwtAuthService {
         try {
             javaJWT.tokenValidate(token)
             return true
-        }catch(Exception e){
+        } catch (Exception e) {
             return false
         }
     }
@@ -57,7 +57,7 @@ class JwtAuthService {
         return isAuthenticated(request, javaJWTData)
     }
 
-    def getJavaJWTData(){
+    def getJavaJWTData() {
         AuthSetting settings = authSettingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)
         JavaJWTData javaJWTData = new JavaJWTData();
         if (settings && settings.dataValue) {
@@ -67,7 +67,7 @@ class JwtAuthService {
     }
 
 
-    Map jwtTokenGen(User user){
+    Map jwtTokenGen(User user) {
         Map response = [:]
         TokenHolder tokenHolder = new TokenHolder(timeMillis: TMDateTimeUtil.currentMillisecond())
         tokenHolder.token = TMGUtil.uuid()
@@ -75,7 +75,7 @@ class JwtAuthService {
         response.refreshToken = tokenHolder.token
         tokenHolder.save()
         JavaJWTData javaJWTData = getJavaJWTData()
-        response.accessToken = getToken("${user.firstName} ${user.lastName}", javaJWTData.addClaim("id", user.uuid) )
+        response.accessToken = getToken("${user.firstName} ${user.lastName ?: ""}", javaJWTData.addClaim("id", user.uuid))
         return response
     }
 
