@@ -9,12 +9,6 @@ version "1.0.0"
 group "com.hmtmcse.gauth"
 
 
-dependencies {
-    compile project(":grails-common")
-    compile project(":grails-swagger")
-    compile project(":java-crypto-and-auth")
-}
-
 def dependencyList = [
         "grails-common",
         "grails-swagger",
