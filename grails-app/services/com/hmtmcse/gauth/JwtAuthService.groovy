@@ -66,6 +66,10 @@ class JwtAuthService {
         return javaJWTData
     }
 
+    String getJwtToken(String issuer) {
+        return getToken(issuer, getJavaJWTData())
+    }
+
 
     Map jwtTokenGen(User user) {
         Map response = [:]
