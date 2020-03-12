@@ -57,11 +57,19 @@ class JwtAuthService {
         return isAuthenticated(request, javaJWTData)
     }
 
-    def getJavaJWTData() {
+    String getJwtSecret() {
         AuthSetting settings = authSettingService.getSetting(AuthConstant.JWT_SETTING_GROUP, AuthConstant.JWT_KEY)
-        JavaJWTData javaJWTData = new JavaJWTData();
         if (settings && settings.dataValue) {
-            javaJWTData.secret = settings.dataValue
+            return settings.dataValue
+        }
+        return null
+    }
+
+    def getJavaJWTData() {
+        JavaJWTData javaJWTData = new JavaJWTData();
+        String secret = getJwtSecret()
+        if (secret) {
+            javaJWTData.secret = secret
         }
         return javaJWTData
     }
